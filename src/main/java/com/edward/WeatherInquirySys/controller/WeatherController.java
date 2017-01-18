@@ -65,7 +65,7 @@ public class WeatherController extends DefaultController {
 	{
 		DefaultResponse response;
 		try {
-			if (null == weatherId || weatherId.longValue() > 0)
+			if (null == weatherId || weatherId.longValue() < 0)
 				throw new ApiException(APICode.InvalidParameter, "invalid-weather-id");
 			
 			weatherService.deleteWeather(weatherId);
