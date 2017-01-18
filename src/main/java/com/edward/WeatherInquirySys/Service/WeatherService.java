@@ -11,6 +11,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.edward.WeatherInquirySys.dao.WeatherDao;
@@ -28,6 +29,8 @@ public class WeatherService {
 	
 	@Autowired
 	private WeatherDao weatherDao;
+	@Value("${openWeatherMap.appid}")
+	private String openWeatherMapAppid;
 	
 	
 	public List<Weather> getWeatherList()
@@ -59,7 +62,7 @@ public class WeatherService {
 		try {
 			CloseableHttpClient client = HttpClients.createDefault();
 			
-			String url = String.format(OPEN_WEATHER_MAP_URL, cityName, "7191f5a6a12f2112c4ddbf2307359231");
+			String url = String.format(OPEN_WEATHER_MAP_URL, cityName, openWeatherMapAppid);
 			HttpGet httpGet = new HttpGet(url);
 			response = client.execute(httpGet);
 			
