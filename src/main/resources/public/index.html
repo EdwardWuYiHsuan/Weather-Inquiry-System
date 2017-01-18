@@ -1,0 +1,124 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+    	<title>Weather Inquiry System</title>
+    	<meta charset="utf-8">
+    	<meta name="description" content="Weather inquiry system for spring and hibernate testing">
+    	<meta name="author" content="Edward Wu">
+		
+    	<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    	<link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css">
+    	<link rel="stylesheet" href="css/index.css" type="text/css">
+    	<script type="text/javascript" src="js/jquery.js"></script>
+    	<script type="text/javascript" src="js/bootstrap.js"></script>
+    	<script>
+    		$(document).ready(function() {
+    			$("#cityManagement input[title='addCity']").on("click", addCityFn);
+    			$("#cityManagement input[title='deleteCity']").on("click", deleteCityFn);
+    			
+    			initPage();
+    		});
+    		
+    		function initPage()
+    		{
+    			$.getJSON("/city/getCityList", function(responseRes) 
+    			{
+    				if (responseRes.result == "ok" && responseRes.data != null) 
+    				{
+						$.each(responseRes.data , function(index, element) {
+    						var optionTag = "<option value='" + element.name + "'>" + element.name + "</option>";
+    						$("#cityManagement select").append(optionTag);
+    					})  				
+    				} 
+    				else 
+    					console.error(responseRes.reason);
+				});
+    		}
+    		
+    		function addCityFn() 
+    		{
+    			console.log("add city")
+    		}
+    		
+    		function deleteCityFn() 
+    		{
+    			console.log("delete city")
+    		}
+    		
+    	</script>
+	</head>
+
+	<body>
+		<div id="wrapper">
+		  	<h1>Weather Inquiry System</h1>
+		  	<div id="cityManagement">
+		  		<input type="text" class="form-control" placeholder="Add City">
+		  		<input type="button" class="btn btn-default btn-sm" value="Add City" title="addCity">
+		  		<span>/</span>
+		  		<select class="form-control">
+					<option selected disabled>Please select a city</option>
+				</select>
+				<input type="button" class="btn btn-default btn-sm" value="Delete City" title="deleteCity">
+		  	</div>
+		  	<div id="citySearch" class="form-group">
+			    <input type="text" class="form-control" placeholder="Search...">
+			    <input type="button" class="btn btn-default" value="Search">
+			</div>
+			<div id="weatherResult">
+				<div class="panel panel-default weatherData">
+					<table class="table">
+						<tr>
+							<td><img src="pic/weatherIcon/02d.png"></td>
+							<td><p><span class="cityName">Singapore</span><br />April 20, 2015</p></td>
+							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
+							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+						</tr>
+						<tr>
+							<td><img src="pic/weatherIcon/03d.png"></td>
+							<td><p><span class="cityName">Taipei</span><br />November 10, 2017</p></td>
+							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
+							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="panel panel-default weatherData">
+					<table class="table">
+						<tr>
+							<td><img src="pic/weatherIcon/02d.png"></td>
+							<td><p><span class="cityName">Singapore</span><br />April 20, 2015</p></td>
+							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
+							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+						</tr>
+						<tr>
+							<td><img src="pic/weatherIcon/03d.png"></td>
+							<td><p><span class="cityName">Taipei</span><br />November 10, 2017</p></td>
+							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
+							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="panel panel-default weatherData">
+					<table class="table">
+						<tr>
+							<td><img src="pic/weatherIcon/02d.png"></td>
+							<td><p><span class="cityName">Singapore</span><br />April 20, 2015</p></td>
+							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
+							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+						</tr>
+						<tr>
+							<td><img src="pic/weatherIcon/03d.png"></td>
+							<td><p><span class="cityName">Taipei</span><br />November 10, 2017</p></td>
+							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
+							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+  		</div>
+  	</body>
+
+</html>
+
+
+

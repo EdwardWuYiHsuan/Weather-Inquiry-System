@@ -1,0 +1,109 @@
+* {
+  padding: 0px;
+  margin: 0px
+}
+
+#wrapper {
+	width: 550px;
+	margin: auto;
+	padding-top: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+}
+
+#wrapper h1 {
+	font-size: 25px;
+   	margin-bottom: 40px;
+}
+
+#cityManagement {
+	margin-bottom: 12px;
+}
+
+#cityManagement input[type=text] {
+	width: 120px;
+	height: 30px;
+	display: inline;
+	font-size: 15px;
+	margin-right: 5px;
+}
+
+#cityManagement input[type=button] {
+	vertical-align: top;
+}
+
+#cityManagement span {
+	margin-right: 5px;
+    margin-left: 5px;
+}
+
+#cityManagement select {
+	width: 150px;
+	height: 30px;
+	display: inline;
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+#citySearch {
+	margin-bottom: 5px;
+}
+
+#citySearch input[type=text] {
+	display: inline;
+    width: 82%;
+    margin-right: 5px;
+}
+
+#citySearch input[type=button] {
+	vertical-align: top;
+}
+
+.weatherData {
+	width: 97%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+.weatherData table tr td {
+	text-align: center;	
+}
+
+.weatherData table tr td img {
+	width: 50px;
+    height: 50px;
+}
+
+.weatherData table tr td:nth-child(2) p {
+	color: #999999;
+	text-align: left;
+	font-size: 14px;
+    margin-bottom: 0px;
+    margin-left: 18px;
+}
+
+.weatherData table tr td:nth-child(3) p {
+	text-align: left;
+	font-size: 14px;
+	margin-left: 18px;
+	margin-top: 2px;
+    margin-bottom: 0px;
+    padding-bottom: 3px
+}
+
+.weatherData table tr td input {
+	margin-top: 7px;
+}
+
+.cityName {
+	font-size: 17px;
+	color: #000000;
+}
+
+.temperature {
+	padding-bottom: 2px !important;
+	margin-right: 5px;
+}
+

@@ -63,12 +63,12 @@
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
-		    <version>2.3.1</version>
 		</dependency>
 		
  		 <dependency>
         	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-devtools</artifactId>
+        	<artifactId>spring-boot-devtools</artifactId> <!-- Spring boot development tool, When class, config file and static page change in eclipse tool, App will restart -->
+        	<optional>true</optional>
     	</dependency>
     	
 		<dependency>
@@ -76,6 +76,20 @@
 		    <artifactId>junit</artifactId>
 		</dependency>
   	</dependencies>
-  
-  
+  	
+  	
+	<!-- == Build Settings == -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+	                <artifactId>spring-boot-maven-plugin</artifactId> <!-- Spring boot development tool, Package app to executable jar file-->
+	                <configuration>
+	                    <fork>true</fork>
+	                </configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
 </project>

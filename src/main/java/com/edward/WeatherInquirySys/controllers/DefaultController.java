@@ -1,4 +1,4 @@
-package com.edward.WeatherInquirySys.controller;
+package com.edward.WeatherInquirySys.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
