@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "weather", indexes = {
 		@Index(columnList = "cityName", name = "city_name_idx")
 })
-public class Weather {
+public class Weather implements Comparable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "weather_id_seq_gen")
@@ -118,6 +118,38 @@ public class Weather {
 		this.iconPath = iconPath;
 	}
 	
+	@Override
+	public int hashCode() 
+	{
+		return this.getId().intValue();
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (null == obj)
+			return false;
+		if (this.getClass() != obj.getClass())
+			return false;
+		final Weather weather = (Weather) obj;
+		return this.getId().longValue() == weather.getId().longValue() && 
+			   this.getTimestamps().longValue() == weather.getTimestamps().longValue();
+	}
+	
+	@Override
+	public int compareTo(Object obj) 
+	{
+		if (this.getClass() != obj.getClass())
+			return 0;
+		
+		final Weather weather = (Weather) obj;
+		if (this.getTimestamps().longValue() < weather.getTimestamps().longValue())
+			return 1;
+		else if (this.getTimestamps().longValue() > weather.getTimestamps().longValue())
+			return -1;
+		else
+			return 0;
+	}
 	
 }
 

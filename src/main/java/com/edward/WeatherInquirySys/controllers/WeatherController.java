@@ -1,6 +1,8 @@
 package com.edward.WeatherInquirySys.controllers;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,9 @@ public class WeatherController extends DefaultController {
 	{
 		DefaultResponse response;
 		try {
-			List<Weather> weatherList = weatherService.getWeatherList();
+			Map<String, Set<Weather>> sortingWeatherList = weatherService.getWeatherList();
 			
-			response = new DefaultResponse().setData(weatherList);
+			response = new DefaultResponse().setData(sortingWeatherList);
 			
 		} catch (Exception e) {
 			response = renderErrorResponse(e);

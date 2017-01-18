@@ -28,7 +28,7 @@ public class ScheduledTasks {
 	private WeatherService weatherService;
 	
 	
-	@Scheduled(cron="0 10 0 * * *")
+	@Scheduled(cron="0 0 3 * * *")
 	public void retrieveWeatherData()
 	{
 		System.out.println("[Scheduled Task] Retrieve Weather Data");

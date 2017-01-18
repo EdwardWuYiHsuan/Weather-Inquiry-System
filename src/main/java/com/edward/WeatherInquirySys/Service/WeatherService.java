@@ -1,7 +1,12 @@
 package com.edward.WeatherInquirySys.Service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -33,9 +38,22 @@ public class WeatherService {
 	private String openWeatherMapAppid;
 	
 	
-	public List<Weather> getWeatherList()
+	public Map<String, Set<Weather>> getWeatherList()
 	{
-		return weatherDao.getList();
+		List<Weather> weathers = weatherDao.getList();
+		
+		Map<String, Set<Weather>> sortingWeatherList = new TreeMap<>();
+		for (Weather weather : weathers) 
+		{
+			if (sortingWeatherList.containsKey(weather.getCityName()))
+				sortingWeatherList.get(weather.getCityName()).add(weather);
+			else
+			{
+				sortingWeatherList.put(weather.getCityName(), new TreeSet<>(Arrays.asList(weather)));
+			}
+		}
+		
+		return sortingWeatherList;
 	}
 	
 	public List<Weather> getWeatherByCityName(String cityName)

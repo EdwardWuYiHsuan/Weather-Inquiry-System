@@ -16,18 +16,23 @@
     		$(document).ready(function() {
     			$("#cityManagement input[title='addCity']").on("click", addCityFn);
     			$("#cityManagement input[title='deleteCity']").on("click", deleteCityFn);
-    			
-    			initPage();
+    			$("#citySearch input[type=button]").on("click", cityNameSearchFn);
+
+    			addCityToDeleteSelectionFn();
+    			addWeatherDataToContentFn()
     		});
-    		
-    		function initPage()
+
+    		function addCityToDeleteSelectionFn()
     		{
     			$.getJSON("/city/getCityList", function(responseRes) 
     			{
     				if (responseRes.result == "ok" && responseRes.data != null) 
     				{
+    					$("#cityManagement select").empty();
+    					$("#cityManagement select").append("<option selected disabled>Please select a city</option>");
+
 						$.each(responseRes.data , function(index, element) {
-    						var optionTag = "<option value='" + element.name + "'>" + element.name + "</option>";
+    						var optionTag = "<option value='" + element.id + "'>" + element.name + "</option>";
     						$("#cityManagement select").append(optionTag);
     					})  				
     				} 
@@ -36,15 +41,168 @@
 				});
     		}
     		
+    		function addWeatherDataToContentFn()
+    		{
+				$.getJSON("/weather/getWeatherList", function(responseRes) 
+    			{
+    				if (responseRes.result == "ok" && responseRes.data != null) 
+    				{
+						$.each(responseRes.data , function(key, value) 
+						{
+    						createWeatherData(value);
+    					})  				
+    				} 
+    				else 
+    					console.error(responseRes.reason);
+				});
+    		}
+
     		function addCityFn() 
     		{
-    			console.log("add city")
+    			var parame = {
+				     name : $("#cityManagement input[type='text']").val()
+				}
+    			$.post("/city/createCity", parame, function(responseRes, status) 
+    			{
+				    if (responseRes.result == "ok")
+				    {
+				    	alert("Added Success!!");
+				    	$("#cityManagement input[type='text']").val("");
+				    	addCityToDeleteSelectionFn();
+				    }
+				    else 
+				    {
+				    	switch (responseRes.reason) {
+    						case "invalid-name": alert("Invalid City Name");
+    						break;
+    						case "city-already-exist": alert("City Already Exist");
+    						break;
+    						default: alert(responseRes.reason);
+						}
+				    }
+				}, "json");
     		}
     		
-    		function deleteCityFn() 
+    		function deleteCityFn(e) 
     		{
-    			console.log("delete city")
+    			var cityId = $("#cityManagement select").val();
+				if (cityId == null) 
+				{
+					return;
+				}
+				else
+				{
+					var url = "city/deleteCity/" + cityId;
+	    			$.ajax({
+						type : "DELETE",
+					    url : url,
+					    cache : false,
+     					success : function(responseRes, status, jqXhr) {
+     						if (responseRes.result == "ok")
+     						{
+     							alert("Deleted Success!!");
+     							addCityToDeleteSelectionFn();
+     						} 
+     						else
+     							alert(responseRes.reason);
+						}
+					});
+				}
     		}
+
+    		function cityNameSearchFn() 
+    		{
+    			var citySearch = $("#citySearch input[type=text]").val();
+    			if (citySearch == "") 
+    			{
+    				alert("Please input city name that you want search!!");
+    			} 
+    			else 
+    			{
+    				var url = "weather/getWeatherByCityName?cityName=" + citySearch;
+	    			$.getJSON(url, function(responseRes) 
+	    			{
+	    				if (responseRes.result == "ok" && responseRes.data != null) 
+	    				{
+	    					$("#weatherResult").empty();
+	    					createWeatherData(responseRes.data); 				
+	    				} 
+	    				else 
+	    					console.error(responseRes.reason);
+					});	
+    			}
+    		}
+
+			var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    		/**
+    		 * Create Weather Data in div #weatherResult
+    		 *
+    		 * weatherModelAry	It is weather model, field include: id, cityName, temperature, speed, humidity, pressure etc..
+    		 */ 
+    		function createWeatherData(weatherModelAry)
+    		{
+    			if (weatherModelAry.length == 0)
+    				return;
+    			
+    			var dataHtmlStr = "<div class='panel panel-default weatherData'><table class='table'>";
+
+    			$.each(weatherModelAry, function (index, element) 
+    			{
+    				var d = new Date(element.timestamps * 1000); //"April 20, 2015";
+    				var dateStr = monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+    				
+    				dataHtmlStr += "<tr><td><img src='pic/weatherIcon/" + element.iconPath + ".png'></td>" +
+    							   "<td><p><span class='cityName'>" + element.cityName + "</span><br />" + 
+    							   dateStr + "</p></td><td><p><span class='temperature label label-default'>" + 
+    							   element.temperature + " °C</span>" + element.status + "<br /></p> " + 
+    							   "<p>" + element.speed + " m/s. " + element.humidity + "%, " + element.pressure + 
+    							   " hpa</p></td><td><input type='button' class='btn btn-danger' value='Delete' weatherId='" + 
+    							   element.id + "' onClick='deleteWeatherModel(event)'></td></tr>";
+    			});
+    			dataHtmlStr += "</table></div>";
+    			$("#weatherResult").append(dataHtmlStr);
+    		}
+
+            function deleteWeatherModel(event)
+            {
+                //$(event.currentTarget).parent("td").parent("tr").remove();
+                //var trRowData = $(event.currentTarget).parent("td").parent("tr");
+                //var next = trRowData.next();
+                //var prev = trRowData.prev();
+                //console.log("i : " + trRowData.is("tr"));
+                //console.log("next : " + next.is("tr"));
+                //console.log("prev : " + prev.is("tr"));
+                //console.log(trRowData.parent().parent("table").parent(".weatherData"));
+                
+                var trRowData = $(event.currentTarget).parent("td").parent("tr");
+                var weatherId = $(event.currentTarget).attr('weatherId');
+                if (weatherId == null) 
+				{
+					return;
+				}
+				else
+				{
+					var url = "weather/deleteWeather/" + weatherId;
+	    			$.ajax({
+						type : "DELETE",
+					    url : url,
+					    cache : false,
+     					success : function(responseRes, status, jqXhr) {
+     						if (responseRes.result == "ok")
+     						{
+								var next = trRowData.next();
+								var prev = trRowData.prev();
+								if (next.is("tr") || prev.is("tr"))
+									trRowData.remove();
+								else
+									trRowData.parent().parent("table").parent(".weatherData").remove();
+     						}
+     						else
+     							alert(responseRes.reason);
+						}
+					});
+				}
+            }
     		
     	</script>
 	</head>
@@ -56,9 +214,7 @@
 		  		<input type="text" class="form-control" placeholder="Add City">
 		  		<input type="button" class="btn btn-default btn-sm" value="Add City" title="addCity">
 		  		<span>/</span>
-		  		<select class="form-control">
-					<option selected disabled>Please select a city</option>
-				</select>
+		  		<select class="form-control"></select>
 				<input type="button" class="btn btn-default btn-sm" value="Delete City" title="deleteCity">
 		  	</div>
 		  	<div id="citySearch" class="form-group">
@@ -66,7 +222,7 @@
 			    <input type="button" class="btn btn-default" value="Search">
 			</div>
 			<div id="weatherResult">
-				<div class="panel panel-default weatherData">
+				<!-- <div class="panel panel-default weatherData">
 					<table class="table">
 						<tr>
 							<td><img src="pic/weatherIcon/02d.png"></td>
@@ -78,42 +234,10 @@
 							<td><img src="pic/weatherIcon/03d.png"></td>
 							<td><p><span class="cityName">Taipei</span><br />November 10, 2017</p></td>
 							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
-							<td><input type="button" class="btn btn-danger" value="Delete"></td>
+							<td><input type="button" class="btn btn-danger" value="Delete" onClick="deleteWeatherModel(event)"></td>
 						</tr>
 					</table>
-				</div>
-				<div class="panel panel-default weatherData">
-					<table class="table">
-						<tr>
-							<td><img src="pic/weatherIcon/02d.png"></td>
-							<td><p><span class="cityName">Singapore</span><br />April 20, 2015</p></td>
-							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
-							<td><input type="button" class="btn btn-danger" value="Delete"></td>
-						</tr>
-						<tr>
-							<td><img src="pic/weatherIcon/03d.png"></td>
-							<td><p><span class="cityName">Taipei</span><br />November 10, 2017</p></td>
-							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
-							<td><input type="button" class="btn btn-danger" value="Delete"></td>
-						</tr>
-					</table>
-				</div>
-				<div class="panel panel-default weatherData">
-					<table class="table">
-						<tr>
-							<td><img src="pic/weatherIcon/02d.png"></td>
-							<td><p><span class="cityName">Singapore</span><br />April 20, 2015</p></td>
-							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
-							<td><input type="button" class="btn btn-danger" value="Delete"></td>
-						</tr>
-						<tr>
-							<td><img src="pic/weatherIcon/03d.png"></td>
-							<td><p><span class="cityName">Taipei</span><br />November 10, 2017</p></td>
-							<td><p><span class="temperature label label-default">11.2 °C</span>Clouds<br /></p><p>4.21 m/s. 76%, 1027.2 hpa</p></td>
-							<td><input type="button" class="btn btn-danger" value="Delete"></td>
-						</tr>
-					</table>
-				</div>
+				</div> -->
 			</div>
   		</div>
   	</body>
