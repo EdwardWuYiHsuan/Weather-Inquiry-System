@@ -6,6 +6,7 @@ public enum APICode {
 	InvalidParameter(101),
 	UniqueParameter(102),
 	AccessFailed(103),
+	HttpConnectionFailed(104),
 	Other(999);
 	
 	

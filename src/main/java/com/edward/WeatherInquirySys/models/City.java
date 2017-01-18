@@ -5,18 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.ValueGenerationType;
+import org.hibernate.validator.group.GroupSequenceProvider;
 
 @Entity
 @Table(name = "city")
 public class City {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "city_id_seq_gen")
+	@SequenceGenerator(name = "city_id_seq_gen", sequenceName = "CITY_ID_SEQUENCE")
 	private Long id;
 	
 	@NotNull
