@@ -92,7 +92,7 @@
 				}
 				else
 				{
-					var url = "city/deleteCity/" + cityId;
+					var url = "/city/deleteCity/" + cityId;
 	    			$.ajax({
 						type : "DELETE",
 					    url : url,
@@ -119,7 +119,7 @@
     			} 
     			else 
     			{
-    				var url = "weather/getWeatherByCityName?cityName=" + citySearch;
+    				var url = "/weather/getWeatherByCityName?cityName=" + citySearch;
 	    			$.getJSON(url, function(responseRes) 
 	    			{
 	    				if (responseRes.result == "ok" && responseRes.data != null) 
@@ -182,7 +182,7 @@
 				}
 				else
 				{
-					var url = "weather/deleteWeather/" + weatherId;
+					var url = "/weather/deleteWeather/" + weatherId;
 	    			$.ajax({
 						type : "DELETE",
 					    url : url,
