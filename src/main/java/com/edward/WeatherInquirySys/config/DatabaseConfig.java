@@ -55,15 +55,15 @@ public class DatabaseConfig {
 	@Bean
 	public LocalSessionFactoryBean getSessionFactory() 
 	{
-	    LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-	    sessionFactoryBean.setDataSource(getDataSource());
-	    sessionFactoryBean.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
-	    Properties hibernateProperties = new Properties();
+		Properties hibernateProperties = new Properties();
 	    hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
 	    hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
 	    hibernateProperties.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
+		
+	    LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+	    sessionFactoryBean.setDataSource(getDataSource());
+	    sessionFactoryBean.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
 	    sessionFactoryBean.setHibernateProperties(hibernateProperties);
-	    
 	    return sessionFactoryBean;
 	}
 	

@@ -15,9 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @Table(name = "weather", indexes = {
-		@Index(columnList = "cityName", name = "city_name_idx")
+		@Index(name = "city_name_idx", columnList = "cityName")
 })
-public class Weather implements Comparable {
+public class Weather implements Comparable<Weather> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "weather_id_seq_gen")
@@ -137,12 +137,11 @@ public class Weather implements Comparable {
 	}
 	
 	@Override
-	public int compareTo(Object obj) 
+	public int compareTo(Weather weather) 
 	{
-		if (this.getClass() != obj.getClass())
+		if (this.getClass() != weather.getClass())
 			return 0;
 		
-		final Weather weather = (Weather) obj;
 		if (this.getTimestamps().longValue() < weather.getTimestamps().longValue())
 			return 1;
 		else if (this.getTimestamps().longValue() > weather.getTimestamps().longValue())

@@ -5,7 +5,7 @@ Weather Inquiry System
 
 
 ## Technology Stack
-* Oracle Jave 7 SDK
+* Oracle Jave 7 JDK
 * Spring (Boot) Framework
 * Hibernate
 * jQuery

@@ -90,7 +90,7 @@
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
-	                <artifactId>spring-boot-maven-plugin</artifactId> <!-- Spring boot development tool, Package app to executable jar file-->
+	                <artifactId>spring-boot-maven-plugin</artifactId> <!-- Spring boot development tool, To create a fully executable jar with Maven -->
 	                <configuration>
 	                    <fork>true</fork>
 	                </configuration>

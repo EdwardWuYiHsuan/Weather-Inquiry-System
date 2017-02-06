@@ -48,9 +48,7 @@ public class WeatherService {
 			if (sortingWeatherList.containsKey(weather.getCityName()))
 				sortingWeatherList.get(weather.getCityName()).add(weather);
 			else
-			{
 				sortingWeatherList.put(weather.getCityName(), new TreeSet<>(Arrays.asList(weather)));
-			}
 		}
 		
 		return sortingWeatherList;
