@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.edward.WeatherInquirySys.Service.CityService;
-import com.edward.WeatherInquirySys.Service.WeatherService;
 import com.edward.WeatherInquirySys.exception.APICode;
 import com.edward.WeatherInquirySys.exception.ApiException;
 import com.edward.WeatherInquirySys.models.City;
 import com.edward.WeatherInquirySys.response.DefaultResponse;
+import com.edward.WeatherInquirySys.service.CityService;
+import com.edward.WeatherInquirySys.service.WeatherService;
 
 
 @RestController

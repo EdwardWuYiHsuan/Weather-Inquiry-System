@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.ValueGenerationType;
-import org.hibernate.validator.group.GroupSequenceProvider;
 
 @Entity
 @Table(name = "city")

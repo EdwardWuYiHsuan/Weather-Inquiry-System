@@ -1,4 +1,4 @@
-package com.edward.WeatherInquirySys.Service;
+package com.edward.WeatherInquirySys.service.impl;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -23,12 +23,13 @@ import com.edward.WeatherInquirySys.dao.WeatherDao;
 import com.edward.WeatherInquirySys.exception.APICode;
 import com.edward.WeatherInquirySys.exception.ApiException;
 import com.edward.WeatherInquirySys.models.Weather;
+import com.edward.WeatherInquirySys.service.WeatherService;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 
 @Service
-public class WeatherService {
+public class WeatherServiceImpl implements WeatherService {
 	
 	public static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s";
 	
@@ -38,6 +39,7 @@ public class WeatherService {
 	private String openWeatherMapAppid;
 	
 	
+	@Override
 	public Map<String, Set<Weather>> getWeatherList()
 	{
 		List<Weather> weathers = weatherDao.getList();
@@ -54,16 +56,19 @@ public class WeatherService {
 		return sortingWeatherList;
 	}
 	
+	@Override
 	public List<Weather> getWeatherByCityName(String cityName)
 	{
 		return weatherDao.getWeatherByCityName(cityName);
 	}
 	
+	@Override
 	public Weather createWeather(Weather weather)
 	{
 		return weatherDao.save(weather);
 	}
 	
+	@Override
 	public void deleteWeather(Long weatherid) throws ApiException
 	{
 		if (weatherDao.isExist(weatherid))
@@ -72,6 +77,7 @@ public class WeatherService {
 			throw new ApiException(APICode.InvalidParameter, "invalid-weather-id");
 	}
 
+	@Override
 	public void inquireWeather(String cityName) throws ApiException 
 	{
 		CloseableHttpResponse response = null;

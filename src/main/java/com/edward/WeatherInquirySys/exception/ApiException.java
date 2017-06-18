@@ -1,5 +1,6 @@
 package com.edward.WeatherInquirySys.exception;
 
+@SuppressWarnings("serial")
 public class ApiException extends Exception {
 	
 	private APICode code;

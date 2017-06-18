@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.edward.WeatherInquirySys.Service.WeatherService;
-import com.edward.WeatherInquirySys.dao.CityDao;
+import com.edward.WeatherInquirySys.dao.impl.CityDaoImpl;
 import com.edward.WeatherInquirySys.exception.ApiException;
 import com.edward.WeatherInquirySys.models.City;
+import com.edward.WeatherInquirySys.service.impl.WeatherServiceImpl;
 
 /**
  * Scheduled Tasks
@@ -23,9 +23,9 @@ import com.edward.WeatherInquirySys.models.City;
 public class ScheduledTasks {
 	
 	@Autowired
-	private CityDao cityDao;
+	private CityDaoImpl cityDao;
 	@Autowired
-	private WeatherService weatherService;
+	private WeatherServiceImpl weatherService;
 	
 	
 	@Scheduled(cron="0 0 3 * * *")

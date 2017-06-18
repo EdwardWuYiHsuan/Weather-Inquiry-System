@@ -1,4 +1,4 @@
-package com.edward.WeatherInquirySys.Service;
+package com.edward.WeatherInquirySys.service.impl;
 
 import java.util.List;
 
@@ -11,20 +11,23 @@ import com.edward.WeatherInquirySys.dao.CityDao;
 import com.edward.WeatherInquirySys.exception.APICode;
 import com.edward.WeatherInquirySys.exception.ApiException;
 import com.edward.WeatherInquirySys.models.City;
+import com.edward.WeatherInquirySys.service.CityService;
 
 
 @Service
-public class CityService {
+public class CityServiceImpl implements CityService {
 
 	@Autowired
 	private CityDao cityDao;
 	
-
+	
+	@Override
 	public List<City> getCityList()
 	{
 		return cityDao.getList();
 	}
 	
+	@Override
 	public City createCity(City city) throws ApiException
 	{
 		try {
@@ -37,13 +40,14 @@ public class CityService {
 		}
 	}
 	
+	@Override
 	public void deleteCity(Long cityId) throws ApiException
 	{
-		if (cityDao.isExist(cityId))
+		if (cityDao.isExist(cityId)) {
 			cityDao.delete(cityId);
-		else 
+		} else {
 			throw new ApiException(APICode.InvalidParameter, "invalid-city-id");
+		}
 	}
-	
 	
 }
